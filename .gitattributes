@@ -1,0 +1,2 @@
+posix/*.txt text eol=lf
+win/*.txt text eol=crlf

@@ -1,0 +1,14 @@
+{
+  "name": "comp90049-project-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "author": "Wentao Liu",
+  "dependencies": {
+    "edit-distance": "^1.0.1",
+    "n-gram": "^1.0.1"
+  }
+}
