@@ -9,9 +9,9 @@ function levenshteinDistance (stringA, stringB) {
     return res.distance
 }
 
-function bigramDistance (stringA, stringB) {
-    let gramsA = ngram.bigram('#' + stringA + '#')
-    let gramsB = ngram.bigram('#' + stringB + '#')
+function ngramDistance (n, stringA, stringB) {
+    let gramsA = ngram(n)('#' + stringA + '#')
+    let gramsB = ngram(n)('#' + stringB + '#')
     let gA = gramsA.length 
     let gB = gramsB.length
     let same = 0
@@ -26,8 +26,16 @@ function bigramDistance (stringA, stringB) {
     return gA + gB - 2 * same
 }
 
+function bigramDistance (stringA, stringB) {
+    return ngramDistance(2, stringA, stringB)
+}
+
+function trigramDistance (stringA, stringB) {
+    return ngramDistance(2, stringA, stringB)
+}
 
 module.exports = {
     levenshtein: levenshteinDistance,
-    bigram: bigramDistance
+    bigram: bigramDistance,
+    trigram: trigramDistance
 }

@@ -10,6 +10,13 @@ const args = process.argv.slice(2)
 const primaryMethodName = args[0]
 const secondaryMethodName = args[1]
 
+let candidateNum = 1
+let useSecondaryMethod = false
+
+if(parseInt(args[1]) !== NaN) {
+    candidateNum = parseInt(args[1])
+}
+
 if(primaryMethodName == null) {
     log("No method is given") 
     process.exit()
@@ -22,8 +29,6 @@ if(method[primaryMethodName] == null) {
 
 const primaryMethodFunc = method[primaryMethodName]
 const secondaryMethodFunc = method[secondaryMethodName]
-
-let useSecondaryMethod = false
 
 if(secondaryMethodName != null && secondaryMethodFunc != null) {
     useSecondaryMethod = true
@@ -40,8 +45,10 @@ log('  |          Misspell          |         Correction         | Distance |   
 log('-------------------------------------------------------------------------------------------------')
 
 misspelledWords.forEach((misspelled, i) => {
+    if(misspelled == '') return
+
     let candidates = []
-    let correction = null
+    let response = []
     let minPrimaryDist = Infinity
     let minSecondaryDist = Infinity
 
@@ -61,21 +68,21 @@ misspelledWords.forEach((misspelled, i) => {
                 let distance = secondaryMethodFunc(misspelled, candidate)
                 if(distance < minSecondaryDist) {
                     minSecondaryDist = distance
-                    correction = candidate
+                    response[0] = candidate
                 }
             })
         } else {
-            correction = candidates[0]
+            response[0] = candidates[0]
         }
     } else {
-        correction = candidates[0]
+        response = candidates.slice(0, candidateNum)
     }
 
-    if(correction == correctWords[i]) {
-        log('v | ' + misspelled.padEnd(26) + " | " + correction.padEnd(26) + ' | ' + minPrimaryDist.toString().padEnd(9) + '|')
+    if(response.includes(correctWords[i])) {
+        log('v | ' + misspelled.padEnd(26) + " | " + response.join(',').padEnd(26) + ' | ' + minPrimaryDist.toString().padEnd(8) + ' | ' + correctWords[i])
         correctCount ++
     } else {
-        log('x | ' + misspelled.padEnd(26) + " | " + correction.padEnd(26) + ' | ' + minPrimaryDist.toString().padEnd(9) + '| ' + correctWords[i])
+        log('x | ' + misspelled.padEnd(26) + " | " + response.join(',').padEnd(26) + ' | ' + minPrimaryDist.toString().padEnd(8) + ' | ' + correctWords[i])
     }
 })
 
