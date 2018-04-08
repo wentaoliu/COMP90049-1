@@ -31,7 +31,7 @@ function bigramDistance (stringA, stringB) {
 }
 
 function trigramDistance (stringA, stringB) {
-    return ngramDistance(2, stringA, stringB)
+    return ngramDistance(3, stringA, stringB)
 }
 
 module.exports = {

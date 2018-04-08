@@ -34,18 +34,22 @@ if(secondaryMethodName != null && secondaryMethodFunc != null) {
     useSecondaryMethod = true
 }
 
+let headwordCount = 0
 let correctCount = 0
+let candidateCount = 0
 
 log('Using ' + primaryMethodName + ' method')
 if(useSecondaryMethod) {
     log('(If there is a tie, use ' + secondaryMethodName + ' method)')
 }
 log('Start...')
-log('  |          Misspell          |         Correction         | Distance |     (Should be)')
+log('  |      Misspell      |               Response               | Dist |   Should be')
 log('-------------------------------------------------------------------------------------------------')
 
 misspelledWords.forEach((misspelled, i) => {
     if(misspelled == '') return
+
+    headwordCount ++
 
     let candidates = []
     let response = []
@@ -79,16 +83,20 @@ misspelledWords.forEach((misspelled, i) => {
     }
 
     if(response.includes(correctWords[i])) {
-        log('v | ' + misspelled.padEnd(26) + " | " + response.join(',').padEnd(26) + ' | ' + minPrimaryDist.toString().padEnd(8) + ' | ' + correctWords[i])
-        correctCount ++
+        log('v | ' + misspelled.padEnd(18) + " | " + response.join(',').padEnd(36) + ' | ' + minPrimaryDist.toString().padEnd(4) + ' | ' + correctWords[i])
+        correctCount ++      
     } else {
-        log('x | ' + misspelled.padEnd(26) + " | " + response.join(',').padEnd(26) + ' | ' + minPrimaryDist.toString().padEnd(8) + ' | ' + correctWords[i])
+        log('x | ' + misspelled.padEnd(18) + " | " + response.join(',').padEnd(36) + ' | ' + minPrimaryDist.toString().padEnd(4) + ' | ' + correctWords[i])
     }
+    candidateCount += response.length
 })
 
 log('-------------------------------------------------------------------------------------------------')
-log(misspelledWords.length + ' headwords, ' + correctCount + ' correct.')
-log('Accurary : ' + (correctCount / misspelledWords.length).toFixed(4))
+log(headwordCount + ' headwords, ' + correctCount + ' correct.')
+log('Overall Accurary : ' + (correctCount / headwordCount).toFixed(4))
+if(candidateNum > 1) {
+    log('Average Precision : ' + (correctCount / candidateCount).toFixed(4))
+}
 
 
    
