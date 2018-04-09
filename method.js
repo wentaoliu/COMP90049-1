@@ -34,8 +34,23 @@ function trigramDistance (stringA, stringB) {
     return ngramDistance(3, stringA, stringB)
 }
 
+function randomDistance (stringA, stringB) {
+    return Math.random()
+}
+
+function customParameterDistance (stringA, stringB) {
+    const insert = function(node) { return 1 } 
+    const remove = function(node) { return 1 }
+    const update = function(stringA, stringB) { return stringA !== stringB ? 1 : -1 }
+    
+    const res = ed.levenshtein(stringA, stringB, insert, remove, update)
+    return res.distance
+}
+
 module.exports = {
     levenshtein: levenshteinDistance,
     bigram: bigramDistance,
-    trigram: trigramDistance
+    trigram: trigramDistance,
+    random: randomDistance,
+    cpd: customParameterDistance
 }
